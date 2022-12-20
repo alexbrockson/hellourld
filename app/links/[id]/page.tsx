@@ -1,27 +1,49 @@
-async function getLink(linkId: string){
-    const res = await fetch(
-        `http://127.0.0.1:8090/api/collections/links/records/${linkId}`,
-        // {
-        //     next: {revalidate: 10},
-        // }
-    );
-        const data = await res.json();
-        return data;
+"use client";
+
+import { useState, useEffect } from "react";
+import supabase from "../../utils/supabase";
+import LinkObject, { DatetimeToString } from '../../utils/link'
+
+export default function GetLink( { params }: { params: any} ) {
+
+    const [data, setData] = useState<any>(null);
+
+    useEffect(() => { 
+        const getData = async() => {
+            const {data: supabaseData, error} = await supabase
+                .from("Links")
+                .select()
+                .eq('id', params.id);
+            console.log({data, error});            
+            setData(supabaseData);
+        };
+
+        getData();       
+
+    }, []);
+
+    return (            
+        <div>            
+            <div>
+                {data?.map((link: LinkObject) => (
+                    <Lnk key={link.id} link={link} />
+                ))}
+            </div>
+        </div>
+    );  
+
 }
 
-export default async function LinkPage({ params }: any) {
-    const link = await getLink(params.id);
-    // const links = await getLinks();
-
+function Lnk({ link }: { link: LinkObject}) {
     return (
         <div>
-            <h1>links/{link.id}</h1>
+            <h1>/links/{link.id}</h1>
             <div>
-                <h2>{link.shorturl}</h2>
-                <h3>{link.url}</h3>
-                <h5>{link.created}</h5>
-                {/* <h6>{link.expiration}</h6> */}
-            </div>            
+                <h2>{link.short_url}</h2>
+                <h4>{link.url}</h4>
+                <p>{link.created == null ? "" : DatetimeToString(link.created)}</p>
+                <p>{link.expiration == null ? "" : DatetimeToString(link.expiration)}</p>
+            </div>
         </div>
     );
 }

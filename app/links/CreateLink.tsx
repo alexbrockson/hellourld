@@ -1,40 +1,91 @@
 'use client';
 
-import React, {useState} from 'react';
-// import PocketBase from 'pocketbase';
-import { resolve } from 'node:path/win32';
-
-// const pb = new PocketBase('http://127.0.0.1:8090');
-
-import { createClient } from '@supabase/supabase-js'
-
-const supabaseUrl = 'https://zaeftioepwoangxkukvc.supabase.co'
-// const supabaseKey = process.env.SUPABASE_KEY
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InphZWZ0aW9lcHdvYW5neGt1a3ZjIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzE0NDc5NTIsImV4cCI6MTk4NzAyMzk1Mn0.0E6hFfeilDx6eXxPuPSHClvkv6M9rzXT69-5_YGwLxA'
-const supabase = createClient(supabaseUrl, supabaseKey)
-
+import supabase from '../utils/supabase'
+import { useEffect, useState } from 'react';
 
 export default function CreateLink() {
+    const [errorText, setError] = useState('')
     const [shorturl, setShortURL] = useState('');
     const [url, setURL] = useState('');
 
     const create = async(e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         console.log('creating new link');
-        // const newLink = {
-        //     "url": url,
-        //     "short_url": shorturl        
-        // };
 
         try {
-            const { data, error } = await supabase
-            .from('Links')
-            .insert({ url: url, short_url: shorturl })            
+            // first confirm that URL isn't empty
+            if (url.length) {
+                if (shorturl.length == 0) {
+                    console.log('short url is empty');
+                    // if shorturl is empty, submit new url and then return id to use for shorturl                
+                    const { data, error } = await supabase
+                        .from('Links')
+                        .insert({ url: url })                 
+                        .select('id')
+                        .single()                                
+                    if (error) {
+                        setError(error.message) 
+                        return true;
+                    }
+                    else {
+                        // use id to create shorturl
+                        var newID = data.id.toString();
+                        console.log(data.id);
+                        console.log("testttt");
+                        console.log(newID);
+                        var n = newID.toString().lastIndexOf('-');
+                        var newShortUrl = newID.toString().substring(n + 1);
+                        console.log(newShortUrl);
+
+                        // update the record we just inserted
+                        const { data: short, error: error2 } = await supabase
+                            .from('Links')
+                            .update({ "short_url": newShortUrl })                 
+                            .eq('id', newID)
+                            .select('short_url')
+                        if (error2) {
+                            setError(error2.message) 
+                            return true;
+                        }
+                        else console.log(short);
+                    }
+                }
+                else {
+                    // need to validate to ensure shorturl doesn't already exist
+                    const { data: record, error } = await supabase
+                        .from('Links')
+                        .select()
+                        .eq('short_url', shorturl)
+                    if (error) {
+                        setError(error.message) 
+                        return true;
+                    }
+                    else {
+                        console.log(record[0]);
+                        if (!record[0]){
+                            // shorturl is not taken, create new record
+                            const { data: record, error } = await supabase
+                                .from('Links')
+                                .insert({ url: url, short_url: shorturl })                 
+                                .select('short_url')
+                                .single()                                
+                            if (error) {
+                                setError(error.message) 
+                                return true;
+                            }
+                            else console.log(record);                              
+                        }
+                        else {
+                            alert("This short URL is already taken!");
+                        }
+                    }
+                }
+            }
+            else {
+                alert("URL is required!");
+            }
         }
         catch (err) {
-            // if (err == "Failed to create record"){
-            //     alert("This short link is already taken");
-            // }
             alert(err);
         }
         finally {
@@ -59,34 +110,7 @@ export default function CreateLink() {
                 onChange={(e) => setShortURL(e.target.value)}
             />
 
-            <button type='submit'>Shorten</button>
+            <button type='submit'>Shorten</button>            
         </form>
     );
 }
-
-// async function CheckShortURL(shorty: string): Promise<boolean> {
-//     console.log('Checking Short URL');
-//     try 
-//     {
-//         const shortURL = {
-//             "shorturl": shorty        
-//         };
-
-//         // throw("this is an error!");
-//         const record = await pb.collection('links').getFirstListItem(`shorturl="${shorty}"`);
-//         if (record) {
-//             console.log(record);
-//             return false;
-//         }
-//         else {
-//             console.log('looks good');
-//             return true;
-//         }
-//     }
-//     catch (err){
-//         alert(err);
-//         return false;
-//     }    
-// }
-    
-    
