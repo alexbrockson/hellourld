@@ -1,7 +1,8 @@
 'use client';
 
-import {useState} from 'react';
+import React, {useState} from 'react';
 import PocketBase from 'pocketbase';
+import { resolve } from 'node:path/win32';
 
 const pb = new PocketBase('http://127.0.0.1:8090');
 
@@ -10,13 +11,48 @@ export default function CreateLink() {
     const [shorturl, setShortURL] = useState('');
     const [url, setURL] = useState('');
 
-    const create = async() => {
+    const create = async(e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        console.log('creating new link');
         const newLink = {
             "url": url,
             "shorturl": shorturl        
         };
 
-        const record = await pb.collection('links').create(newLink);
+        try {
+            const record = await pb.collection('links').create(newLink);
+            console.log(record);
+        }
+        catch (err) {
+            // if (err == "Failed to create record"){
+            //     alert("This short link is already taken");
+            // }
+            alert(err);
+        }
+        finally {
+            return false;
+        }
+    }
+
+    const createValidated = async() => {
+        console.log('in createValidated');
+
+
+
+        var isValid = await CheckShortURL(shorturl);
+        if (isValid){
+            create;
+        }
+        else {
+            alert("this short url already exists!");
+        }
+
+        // const newLink = {
+        //     "url": url,
+        //     "shorturl": shorturl        
+        // };
+
+        // const record = await pb.collection('links').create(newLink);
     }
 
     return (
@@ -40,3 +76,30 @@ export default function CreateLink() {
         </form>
     );
 }
+
+async function CheckShortURL(shorty: string): Promise<boolean> {
+    console.log('Checking Short URL');
+    try 
+    {
+        const shortURL = {
+            "shorturl": shorty        
+        };
+
+        // throw("this is an error!");
+        const record = await pb.collection('links').getFirstListItem(`shorturl="${shorty}"`);
+        if (record) {
+            console.log(record);
+            return false;
+        }
+        else {
+            console.log('looks good');
+            return true;
+        }
+    }
+    catch (err){
+        alert(err);
+        return false;
+    }    
+}
+    
+    
