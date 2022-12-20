@@ -1,13 +1,12 @@
-import Image from 'next/image'
-import { Inter } from '@next/font/google'
-import styles from './page.module.css'
+import CreateLink from './links/CreateLink'
+// import { Inter } from '@next/font/google'
 
 
 export default function Home() {
   return (
     <>
       <div>
-        hello world
+        <CreateLink/>
         
       </div>
     </>
