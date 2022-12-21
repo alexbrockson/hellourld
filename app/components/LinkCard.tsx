@@ -23,8 +23,10 @@ export default function LinkCard({link, onDelete}:Props ) {
     
     return (
         <div>
+            <Link href={`/lnk/${link.short_url}`} style={{color:'#009dff'}}>
+                <h2>{link.short_url} (go to link)</h2>
+            </Link>
             <Link href={`/links/${link.id}`}>
-                <h2>{link.short_url}</h2>
                 <h4>{link.url}</h4>
                 <p>{link.created == null ? "" : DatetimeToString(link.created)}</p>
                 <p>{link.expiration == null ? "" : DatetimeToString(link.expiration)}</p>
