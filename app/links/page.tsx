@@ -1,46 +1,57 @@
 "use client";
 
-import Link from 'next/link'
 import supabase from '../utils/supabase'
 import LinkObject, { DatetimeToString } from '../utils/link'
 import { useEffect, useState } from 'react';
 
+import LinkCard from '../components/LinkCard';
+
 export default function Links() {
     const [data, setData] = useState<any>(null);
     const [loading, setLoading] = useState(false);
+    const [fetchError, setFetchError] = useState<any>(null);
+
+    const deleteLink = (id: string) => {
+        setData((prevLinks: LinkObject[]) => {
+            return prevLinks.filter(l => l.id !== id)
+        })
+    }
 
     useEffect(() => { 
         setLoading(true);
-        const getData = async() => {
-            const {data: supabaseData, error} = await supabase.from("Links").select();
-            setData(supabaseData);
-            setLoading(false);
+        const getLinks = async() => {
+            const {data, error} = await supabase
+                .from("Links")
+                .select();
+
+            if (error) {
+                setFetchError('Could not fetch link')
+                setData(null);
+                console.log(error);
+            }
+            if (data) {
+                setData(data);
+                setFetchError(null);
+            }
+
         };
 
-        getData();
+        getLinks();
     }, []);
 
     return (            
         <div>
             <h1>Links</h1>
             <div>
-                {(data != null && data.length > 0) ? data?.map((link: LinkObject) => (
-                    <Lnk key={link.id} link={link} />
-                )) : ((loading) ? <p>loading...</p> : <p>no links yet!</p>)}
+                {fetchError && (<p>{fetchError}</p>)}
+                {data && (
+                    <div>
+                        {data.map((link: LinkObject) => (                            
+                            <LinkCard key={link.id} link={link} onDelete={deleteLink}/>
+                        ))}
+                    </div>
+                )}
             </div>
         </div>
     );    
-}
-
-function Lnk({ link }: { link: LinkObject}) {
-    return (
-        <Link href={`/links/${link.id}`}>
-            <div>
-                <h2>{link.short_url}</h2>
-                <h4>{link.url}</h4>
-                <p>{link.created == null ? "" : DatetimeToString(link.created)}</p>
-                <p>{link.expiration == null ? "" : DatetimeToString(link.expiration)}</p>
-            </div>
-        </Link>
-    );
 }

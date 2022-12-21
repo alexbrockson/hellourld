@@ -2,6 +2,7 @@
 
 import supabase from '../utils/supabase'
 import { useEffect, useState } from 'react';
+// import "react-datepicker/dist/react-datepicker.css";
 
 export default function CreateLink() {
     const [errorText, setError] = useState('')
@@ -10,13 +11,11 @@ export default function CreateLink() {
 
     const create = async(e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log('creating new link');
 
         try {
             // first confirm that URL isn't empty
             if (url.length) {
                 if (shorturl.length == 0) {
-                    console.log('short url is empty');
                     // if shorturl is empty, submit new url and then return id to use for shorturl                
                     const { data, error } = await supabase
                         .from('Links')
@@ -30,12 +29,8 @@ export default function CreateLink() {
                     else {
                         // use id to create shorturl
                         var newID = data.id.toString();
-                        console.log(data.id);
-                        console.log("testttt");
-                        console.log(newID);
                         var n = newID.toString().lastIndexOf('-');
                         var newShortUrl = newID.toString().substring(n + 1);
-                        console.log(newShortUrl);
 
                         // update the record we just inserted
                         const { data: short, error: error2 } = await supabase
@@ -61,7 +56,6 @@ export default function CreateLink() {
                         return true;
                     }
                     else {
-                        console.log(record[0]);
                         if (!record[0]){
                             // shorturl is not taken, create new record
                             const { data: record, error } = await supabase
@@ -73,7 +67,6 @@ export default function CreateLink() {
                                 setError(error.message) 
                                 return true;
                             }
-                            else console.log(record);                              
                         }
                         else {
                             alert("This short URL is already taken!");
@@ -110,7 +103,22 @@ export default function CreateLink() {
                 onChange={(e) => setShortURL(e.target.value)}
             />
 
+            {/* <Datee></Datee> */}
+
             <button type='submit'>Shorten</button>            
         </form>
     );
 }
+
+
+// const Datee = () => {
+//     const [startDate, setStartDate] = useState();
+//     return (
+//       <DatePicker 
+//         selected={startDate} 
+//         onChange={date => setStartDate(date)} 
+//         isClearable
+
+//       />
+//     );
+// };

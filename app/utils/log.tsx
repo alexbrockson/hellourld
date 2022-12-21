@@ -1,9 +1,10 @@
-export default interface LinkObject {
+import LinkObject from "./link";
+
+export default interface LogObject {
     id: string
-    url: string
-    short_url: string
-    expiration: Date
-    created: Date
+    link_id: string    
+    access_date: Date
+    link: LinkObject    
 }
 
 export function DatetimeToString(s: any) {
