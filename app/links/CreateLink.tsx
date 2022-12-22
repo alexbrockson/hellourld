@@ -55,6 +55,7 @@ export default function CreateLink() {
                         }
                         else {
                             setLink(window.location.href + "lnk/" + newShortUrl);
+                            navigator.clipboard.writeText(window.location.href + "lnk/" + newShortUrl);
                         }
                     }
                 }
@@ -82,6 +83,7 @@ export default function CreateLink() {
                             }
                             else {
                                 setLink(window.location.href + "lnk/" + shorturl);
+                                navigator.clipboard.writeText(window.location.href + "lnk/" + shorturl);
                             }
                         }
                         else {
@@ -196,7 +198,7 @@ export default function CreateLink() {
                     <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="check-circle" className="w-4 h-4 mr-2 fill-current" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                         <path fill="currentColor" d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z"></path>
                     </svg>
-                    <strong className="mr-1">Success! </strong> Here's your link:&nbsp;<u><a href={link}>{link}</a></u>
+                    <strong className="mr-1">Success! </strong><u><a href={link}>{link}</a></u>&nbsp;copied to your clipboard!
                 </div>
             )}
         </>
