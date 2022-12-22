@@ -1,12 +1,23 @@
 ## Getting Started
 
-First, install the required packages:
+### 1. Install the required packages:
 
 ```bash
 npm install
 ```
 
-Then, run the server:
+### 2. Setup Supabase
+
+  ##### 2a. Rename .env.sample to .env.local
+
+  ##### 2b. In .env.local, replace placholder values with the URL and Anon Key provided
+
+```bash
+NEXT_PUBLIC_SUPABASE_URL=EnterURLHereNoQuotes
+NEXT_PUBLIC_SUPABASE_ANON_KEY=EnterKeyHereNoQuotes
+```
+
+### 3. Run the server:
 
 ```bash
 npm run dev
