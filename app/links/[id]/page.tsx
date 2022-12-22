@@ -37,7 +37,7 @@ export default function GetLink( { params }: { params: any} ) {
 
     return (            
         <>            
-            <div>
+            <div className="center">
                 {fetchError && (<p>{fetchError}</p>)}
                 {data && (
                     <div>

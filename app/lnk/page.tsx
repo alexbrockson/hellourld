@@ -39,7 +39,7 @@ export default function Links() {
     }, []);
 
     return (            
-        <div>
+        <div className="center">
             <h1>Links</h1>
             <div>
                 {fetchError && (<p>{fetchError}</p>)}

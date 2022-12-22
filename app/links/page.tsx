@@ -40,8 +40,8 @@ export default function Links() {
     }, []);
 
     return (            
-        <div>
-            <h1>Links</h1>
+        <div className="center">
+            <h5 className="text-gray-900 text-xl leading-tight font-medium mb-2">Links</h5>
             <div>
                 {fetchError && (<p>{fetchError}</p>)}
                 {data && (

@@ -22,21 +22,62 @@ export default function LinkCard({link, onDelete}:Props ) {
     }
     
     return (
-        <div>
-            <Link href={`/lnk/${link.short_url}`} style={{color:'#009dff'}}>
-                <h2>{link.short_url} (go to link)</h2>
-            </Link>
-            <Link href={`/links/${link.id}`}>
-                <h4>{link.url}</h4>
-                <p>{link.created == null ? "" : DatetimeToString(link.created)}</p>
-                <p>{link.expiration == null ? "" : DatetimeToString(link.expiration)}</p>
-            </Link>
-            <Link href={`/links/analytics/${link.id}`} style={{color:'#009dff'}}>
-                View Usage
-            </Link>
-            <br/><br/>
-            <button onClick={deleteLink}>Delete</button>
-        </div>
+<div className="flex justify-center card-margin">
+
+    <div className="block p-6 rounded-lg shadow-lg bg-white max-w-sm">
+        <Link href={`/lnk/${link.short_url}`} style={{color:'#009dff'}}>
+            <span className="text-xl leading-tight font-medium mb-2">{link.short_url}</span>
+        </Link>
+        {link.url.length > 50 &&
+            <p className="text-xs mb-2">{(link.url.substring(45, 0)) + "..."}</p>
+        }
+        {link.url.length <= 50 &&
+            <p className="text-xs mb-2">{link.url}</p>
+        }
+        
+
+        <p className="text-gray-700 text-base mb-4">
+            <p>{link.created == null ? "" : "Created: " + DatetimeToString(link.created)}</p>
+            <p>{link.expiration == null ? "" : "Expiration: " + DatetimeToString(link.expiration)}</p>
+            <button onClick={() => window.location.replace(`/links/analytics/${link.id}`)} className="
+                px-6
+                py-2.5
+                bg-blue-600
+                text-white
+                font-medium
+                text-xs
+                leading-tight
+                uppercase
+                rounded
+                shadow-md
+                hover:bg-blue-700 hover:shadow-lg
+                focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0
+                active:bg-blue-800 active:shadow-lg
+                transition
+                duration-150
+                ease-in-out
+                button-margin">View Usage</button>
+            <button onClick={deleteLink} className="
+                px-6
+                py-2.5
+                bg-red-600
+                text-white
+                font-medium
+                text-xs
+                leading-tight
+                uppercase
+                rounded
+                shadow-md
+                hover:bg-red-700 hover:shadow-lg
+                focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0
+                active:bg-red-800 active:shadow-lg
+                transition
+                duration-150
+                ease-in-out
+                button-margin">Delete</button>
+            </p>
+    </div>      
+</div>
     )
 }
 

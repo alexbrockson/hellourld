@@ -8,16 +8,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html>
-      <body>
+    <html>      
+      <body className="center-site">      
         <main>
-          <nav>
-            <Link href="/">
-              Home
-            </Link>
-            <Link href="/links">
-              Links
-            </Link>
+          <nav className="relative w-full flex flex-wrap items-center justify-between py-3 bg-gray-100 text-gray-500 hover:text-gray-700 focus:text-gray-700 shadow-lg">
+              <ul className="navbar-nav flex pl-0 list-style-none mr-auto">
+                <li className="nav-item px-2">
+                  <Link className="nav-link" href="/">Home</Link>
+                </li>
+                <li className="nav-item px-2">
+                  <Link className="nav-link" href="/links">Links</Link>
+                </li>
+              </ul>
           </nav>
           {children}
         </main>

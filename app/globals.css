@@ -1,3 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.button-margin {
+  margin:4px;
+}
+
+.center-site {
+  margin: auto;
+  width: 60%;
+  padding: 10px;
+}
+.center {
+  margin: auto;
+  padding: 10px;
+}
+
+.card-margin{
+  margin:16px;
+}
+/*
 * {
   box-sizing: border-box;
 }
@@ -52,7 +74,7 @@ nav a {
   text-decoration: underline;
 }
 
-/* :root {
+ :root {
   --max-width: 1100px;
   --border-radius: 12px;
   --font-mono: ui-monospace, Menlo, Monaco, 'Cascadia Mono', 'Segoe UI Mono',

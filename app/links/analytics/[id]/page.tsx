@@ -32,21 +32,21 @@ export default function GetLink( { params }: { params: any} ) {
     }, []);
 
     return (            
-        <div>
-        <h1>Usage</h1>
-        <div>
-            {fetchError && (<p>{fetchError}</p>)}
-            {data && (
-                <div>
-                    <h4>This link has been visited {data.length} times.</h4>
-                    <h4>{data.length ? `Most recent access: ${DatetimeToString(data[0].access_date)}` : ""}</h4>              
-                    <h4>{data.length ? 'Visits:' : ""}</h4>                    
-                    {data.map((log: LogObject) => (                            
-                        <LogCard key={log.id} log={log} />
-                    ))}
-                </div>
-            )}
+        <div className="center">
+            <h5 className="text-gray-900 text-xl leading-tight font-medium mb-2">Usage</h5>
+            <div>
+                {fetchError && (<p>{fetchError}</p>)}
+                {data && (
+                    <div>
+                        <h4>This link has been visited {data.length} times.</h4>
+                        <h4>{data.length ? `Most recent access: ${DatetimeToString(data[0].access_date)}` : ""}</h4>              
+                        <h4>{data.length ? 'Visits:' : ""}</h4>                    
+                        {data.map((log: LogObject) => (                            
+                            <LogCard key={log.id} log={log} />
+                        ))}
+                    </div>
+                )}
+            </div>
         </div>
-    </div>
     );  
 }
