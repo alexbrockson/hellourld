@@ -21,6 +21,7 @@ export default function RootLayout({
                 </li>
               </ul>
           </nav>
+          <br/>
           {children}
         </main>
       </body>

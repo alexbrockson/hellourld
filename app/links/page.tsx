@@ -1,7 +1,7 @@
 "use client";
 
 import supabase from '../utils/supabase'
-import LinkObject, { DatetimeToString } from '../utils/link'
+import LinkObject from '../utils/link'
 import { useEffect, useState } from 'react';
 
 import LinkCard from '../components/LinkCard';

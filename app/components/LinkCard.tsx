@@ -1,6 +1,7 @@
 import Link from 'next/link'
-import LinkObject, { DatetimeToString } from '../utils/link'
+import LinkObject from '../utils/link'
 import supabase from '../utils/supabase'
+import DatetimeToString from '../utils/helper'
 
 type Props={ link:LinkObject, onDelete:any }
 

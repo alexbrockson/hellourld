@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react";
 import supabase from "../../../utils/supabase";
-import LogObject, { DatetimeToString } from "../../../utils/log";
+import LogObject from "../../../utils/log";
+import DatetimeToString from "../../../utils/helper";
 import LogCard from "../../../components/LogCard";
 
 export default function GetLink( { params }: { params: any} ) {
@@ -34,19 +35,20 @@ export default function GetLink( { params }: { params: any} ) {
     return (            
         <div className="center">
             <h5 className="text-gray-900 text-xl leading-tight font-medium mb-2">Usage</h5>
-            <div>
                 {fetchError && (<p>{fetchError}</p>)}
                 {data && (
                     <div>
-                        <h4>This link has been visited {data.length} times.</h4>
-                        <h4>{data.length ? `Most recent access: ${DatetimeToString(data[0].access_date)}` : ""}</h4>              
-                        <h4>{data.length ? 'Visits:' : ""}</h4>                    
+                        <h5 className="font-medium leading-tight text-xl mt-0 mb-2 text-gray-900">This link has been visited {data.length} times.</h5>
+                        <h5 className="font-medium leading-tight text-xl mt-0 mb-2 text-gray-900">{data.length ? `Most recent access: ${DatetimeToString(data[0].access_date)}` : ""}</h5>              
+                        <br/>
+                        <h6 className="font-medium leading-tight text-base mt-0 mb-2 text-gray-900">{data.length ? 'Visits:' : ""}</h6>
+                        <ul className="bg-white rounded-lg w-96 text-gray-900">
                         {data.map((log: LogObject) => (                            
                             <LogCard key={log.id} log={log} />
                         ))}
+                        </ul>
                     </div>
                 )}
-            </div>
         </div>
     );  
 }
