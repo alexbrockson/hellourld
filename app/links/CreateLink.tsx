@@ -4,7 +4,7 @@ import supabase from '../utils/supabase'
 import { useEffect, useState } from 'react';
 
 
-import { Dayjs } from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import TextField  from '@mui/material/TextField';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -161,16 +161,16 @@ export default function CreateLink() {
                             ease-in-out
                             m-0
                             focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                            minDate={() => new Dayjs()}
+                            minDate={dayjs().add(1, 'day')}
                             value={expiration}
                             onChange={(newValue) => {
                             setValue(newValue);
                             }}
                             renderInput={(params) => <TextField {...params} />}
                         />
-                        <small className="block mt-1 text-xs text-gray-600">Optional</small>
+                        <small className="block mt-1 text-xs text-gray-600">Optional (links will expire at 12:00AM of the day selected)</small>
                     </LocalizationProvider>
-                    <br/><br/>
+                    <br/>
                     <button type="submit" className="
                         px-6
                         py-2.5
