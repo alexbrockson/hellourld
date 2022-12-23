@@ -12,7 +12,6 @@ export default function LinkCard({link, onDelete}:Props ) {
             alert("error deleting" + link.short_url);
         }
         if (data){
-            alert("deleted " + link.short_url);
             onDelete(link.id);
         }
     }
