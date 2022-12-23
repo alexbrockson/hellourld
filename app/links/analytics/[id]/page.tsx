@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { GetLogs } from "../../../utils/supabase";
+import { GetLogsForID } from "../../../utils/supabase";
 import LogObject from "../../../utils/log";
 import DatetimeToString from "../../../utils/helper";
 import LogCard from "../../../components/LogCard";
@@ -12,7 +12,7 @@ export default function GetLink( { params }: { params: any} ) {
 
     useEffect(() => { 
         const getLogs = async() => {
-            const {data, error} = await GetLogs(params.id)
+            const {data, error} = await GetLogsForID(params.id)
             if (error) {
                 setFetchError('Could not fetch logs')
                 setData(null);

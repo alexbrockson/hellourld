@@ -15,6 +15,15 @@ const GetLinks = async() =>  {
     return { data, error }
 }
 
+const GetLink = async( short_url: string ) => {    
+    let { data, error } = await supabase
+        .from("Links")
+        .select()
+        .eq('short_url', short_url)
+        .single();
+    return { data, error }
+}
+
 async function InsertLink( payload:LinkObject )  {
     const { data, error } = await supabase
         .from('Links')
@@ -43,17 +52,8 @@ async function DeleteLink( id:string ) {
     return { data, error }
 }
 
-const GetURL = async( short_url: string ) => {    
-    let { data, error } = await supabase
-        .from("Links")
-        .select()
-        .eq('short_url', short_url)
-        .single();
-    return { data, error }
-}
-
 const LogVisit = async( short_url: string ) => {   
-    const {data, error} = await GetURL(short_url);
+    const {data, error} = await GetLink(short_url);
     if (data != null) {
         await InsertLog(data);
     }
@@ -87,7 +87,7 @@ const CreateNewLink = async ( payload:LinkObject ) => {
         }
     }
     // need to validate to ensure short_url doesn't already exist
-    const {data, error} = await GetURL(short_url!);
+    const {data, error} = await GetLink(short_url!);
     if (data === null){
         // short_url is not taken, create new record
         const {data, error} = await InsertLink(payload)
@@ -96,14 +96,31 @@ const CreateNewLink = async ( payload:LinkObject ) => {
     return { data, error }
 }
 
-const GetLogs = async( id: string ) => {    
-    let { data, error } = await supabase
+const GetLogs = async( short_url: string ) => {   
+    console.log('short_url', short_url);
+    const {data, error} = await GetLink(short_url);
+    console.log(data);
+    if (data !== null) {
+        return await GetLogsForID(data.id, true);
+    }
+    return { data, error }
+}
+
+const GetLogsForID = async( link_id: string, includeLinks:boolean=false ) => {    
+    return await supabase
         .from("Logs")
-        .select()
-        .eq('link_id', id)
+        .select(includeLinks ? '*,Links(*)' : '*')
+        .eq('link_id', link_id)
         .order('access_date', { ascending: false });
+}
+
+const GetAllLogs = async() =>  {    
+    let { data, error } = await supabase
+        .from('Logs')
+        .select('*,Links(*)')
+        .order('access_date', { ascending: false })
     return { data, error }
 }
 
 
-export { GetURL, GetLogs, CreateNewLink, GetLinks, DeleteLink, LogVisit }
+export { GetLink, CreateNewLink, GetLinks, DeleteLink, LogVisit, GetLogs, GetAllLogs, GetLogsForID }
