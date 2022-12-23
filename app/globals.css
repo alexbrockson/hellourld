@@ -6,15 +6,13 @@
   margin:4px;
 }
 
-
-
 .center-site {
   margin: auto;
   width: 100%;
   padding: 10px;
 }
 
-@media (min-width: 700px) {
+@media screen and (min-width: 700px) {
   .center-site {
     margin: auto;
     width: 60%;
@@ -27,6 +25,6 @@
   padding: 10px;
 }
 
-.card-margin{
+.card-margin {
   margin:16px;
 }

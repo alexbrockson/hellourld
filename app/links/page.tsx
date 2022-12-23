@@ -1,6 +1,6 @@
 "use client";
 
-import supabase from '../utils/supabase'
+import { GetLinks } from '../utils/supabase'
 import LinkObject from '../utils/link'
 import { useEffect, useState } from 'react';
 
@@ -18,14 +18,11 @@ export default function Links() {
     }
 
     useEffect(() => { 
-        setLoading(true);
-        const getLinks = async() => {
-            const {data, error} = await supabase
-                .from("Links")
-                .select();
 
+        const getLinks = async() => {
+            const { data, error } = await GetLinks()
             if (error) {
-                setFetchError('Could not fetch link')
+                setFetchError(`Could not fetch links: ${error.message}`)
                 setData(null);
                 console.log(error);
             }
@@ -33,9 +30,8 @@ export default function Links() {
                 setData(data);
                 setFetchError(null);
             }
-
         };
-
+        
         getLinks();
     }, []);
 

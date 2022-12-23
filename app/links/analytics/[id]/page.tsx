@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import supabase from "../../../utils/supabase";
+import { GetLogs } from "../../../utils/supabase";
 import LogObject from "../../../utils/log";
 import DatetimeToString from "../../../utils/helper";
 import LogCard from "../../../components/LogCard";
@@ -12,12 +12,7 @@ export default function GetLink( { params }: { params: any} ) {
 
     useEffect(() => { 
         const getLogs = async() => {
-            const {data, error} = await supabase
-                .from("Logs")
-                .select()
-                .eq('link_id', params.id)
-                .order('access_date', { ascending: false });
-
+            const {data, error} = await GetLogs(params.id)
             if (error) {
                 setFetchError('Could not fetch logs')
                 setData(null);
