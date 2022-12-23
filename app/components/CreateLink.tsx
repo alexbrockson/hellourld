@@ -24,7 +24,7 @@ export default function CreateLink() {
             let payload = { 
                 url: url,
                 short_url: shorturl,
-                expiration: expiration
+                expiration: expiration // link deletion on expiration is being handled in supabase db by minutely CRON job
              }
             const {data, error} = await CreateNewLink( payload );
             if (error) {

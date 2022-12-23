@@ -27,7 +27,7 @@ const GetLink = async( short_url: string ) => {
 async function InsertLink( payload:LinkObject )  {
     const { data, error } = await supabase
         .from('Links')
-        .insert({url:payload.url, short_url:payload.short_url, expiration:payload.expiration})                 
+        .insert({url:payload.url, short_url:payload.short_url, expiration:payload.expiration}) // link deletion on expiration is being handled in supabase db by minutely CRON job                 
         .select()
         .single()
     return { data, error }
