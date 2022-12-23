@@ -52,6 +52,14 @@ async function DeleteLink( id:string ) {
     return { data, error }
 }
 
+async function DeleteLinkByShortURL( short_url:string ) {
+    const {data, error} = await GetLink(short_url);
+    if (data !== null) {
+        return await DeleteLink(data.id);
+    }
+    return { data, error }
+}
+
 const LogVisit = async( short_url: string ) => {   
     const {data, error} = await GetLink(short_url);
     if (data != null) {
@@ -123,4 +131,4 @@ const GetAllLogs = async() =>  {
 }
 
 
-export { GetLink, CreateNewLink, GetLinks, DeleteLink, LogVisit, GetLogs, GetAllLogs, GetLogsForID }
+export { GetLink, CreateNewLink, GetLinks, DeleteLink, DeleteLinkByShortURL, LogVisit, GetLogs, GetAllLogs, GetLogsForID }
