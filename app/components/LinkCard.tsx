@@ -19,19 +19,19 @@ export default function LinkCard({link, onDelete}:Props ) {
     return (
         <div className="flex justify-center card-margin">
 
-            <div className="block p-6 rounded-lg shadow-lg bg-white max-w-sm">
+            <div className="block p-6 rounded-lg shadow-lg bg-white dark:bg-gray-800 max-w-sm">
                 <Link href={`/${link.short_url}`} style={{color:'#009dff'}}>
                     <span className="text-xl leading-tight font-medium mb-2">{link.short_url}</span>
                 </Link>
                 {link.url!.length > 50 &&
-                    <p className="text-xs mb-2">{(link.url!.substring(45, 0)) + "..."}</p>
+                    <p className="text-xs mb-2 dark:text-white">{(link.url!.substring(45, 0)) + "..."}</p>
                 }
                 {link.url!.length <= 50 &&
-                    <p className="text-xs mb-2">{link.url}</p>
+                    <p className="text-xs mb-2 dark:text-white">{link.url}</p>
                 }
                 
 
-                <div className="text-gray-700 text-base mb-4">
+                <div className="text-gray-700 dark:text-white text-base mb-4">
                     <p>{link.created == null ? "" : "Created: " + DatetimeToString(link.created)}</p>
                     <p>{link.expiration == null ? "" : "Expiration: " + DatetimeToString(link.expiration)}</p>
                     <button onClick={() => window.location.replace(`/links/analytics/${link.id}`)} className="

@@ -2,11 +2,13 @@
 
 import { CreateNewLink } from '../utils/supabase'
 import { useState } from 'react';
+// datepicker imports
 import dayjs, { Dayjs } from 'dayjs';
 import TextField  from '@mui/material/TextField';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+// /datepicker imports
 
 export default function CreateLink() {
     const [shorturl, setShortURL] = useState('');
@@ -48,10 +50,10 @@ export default function CreateLink() {
 
     return (
         <>
-            <div className="block p-6 rounded-lg shadow-lg bg-white max-w-sm center">
+            <div className="block p-6 rounded-lg shadow-lg bg-white max-w-sm center dark:bg-gray-800">
                 <form onSubmit={create}>
                     <div className="form-group mb-6">
-                        <label className="form-label inline-block mb-2 text-gray-700">URL</label>
+                        <label className="form-label inline-block mb-2 text-gray-700 dark:text-gray-100">URL</label>
                         <input type="text" className="form-control block
                             w-full
                             px-3
@@ -60,6 +62,7 @@ export default function CreateLink() {
                             font-normal
                             text-gray-700
                             bg-white bg-clip-padding
+                            dark:bg-gray-600
                             border border-solid border-gray-300
                             rounded
                             transition
@@ -69,7 +72,7 @@ export default function CreateLink() {
                             placeholder="Paste your long URL" onChange={(e) => setURL(e.target.value)} value={url}/>
                     </div>
                     <div className="form-group mb-6">
-                        <label className="form-label inline-block mb-2 text-gray-700">Short URL</label>
+                        <label className="form-label inline-block mb-2 text-gray-700 dark:text-gray-100">Short URL</label>
                         <input type="text" className="form-control block
                             w-full
                             px-3
@@ -78,6 +81,7 @@ export default function CreateLink() {
                             font-normal
                             text-gray-700
                             bg-white bg-clip-padding
+                            dark:bg-gray-600
                             border border-solid border-gray-300
                             rounded
                             transition
@@ -88,21 +92,22 @@ export default function CreateLink() {
                         <small className="block mt-1 text-xs text-gray-600">Optional</small>
                     </div>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <label className="form-label inline-block mb-2 text-gray-700">Expiration</label>
+                        <label className="form-label inline-block mb-2 text-gray-700 dark:text-gray-100">Expiration</label>
                         <DatePicker
                             className="form-control block
                             w-full
                             px-3
-                            py-1.5
+                            py-1.5                            
                             text-base
                             font-normal
                             text-gray-700
                             bg-white bg-clip-padding
+                            dark:bg-gray-600
                             rounded
                             transition
                             ease-in-out
                             m-0
-                            focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                            focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none datepicker"
                             minDate={dayjs().add(1, 'day')}
                             value={expiration}
                             onChange={(newValue) => {
@@ -110,7 +115,7 @@ export default function CreateLink() {
                             }}
                             renderInput={(params) => <TextField {...params} />}
                         />
-                        <small className="block mt-1 text-xs text-gray-600">Optional (links will expire at 12:00AM of the day selected)</small>
+                        <small className="block mt-1 text-xs text-gray-600 dark:text-gray-300">Optional (links will expire at 12:00AM of the day selected)</small>
                     </LocalizationProvider>
                     <br/>
                     <button type="submit" className="

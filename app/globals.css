@@ -28,3 +28,12 @@
 .card-margin {
   margin:16px;
 }
+
+.darkModeToggle {
+  margin-left:6px; 
+  margin-right:6px;
+}
+
+.datepicker {
+  border:none !important;
+}
